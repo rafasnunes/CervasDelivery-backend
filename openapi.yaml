@@ -1,0 +1,161 @@
+openapi: 3.0.0
+info:
+  title: API Documentation
+  version: 1.0.0
+  description: API documentation for the Flask application.
+paths:
+  /:
+    get:
+      summary: Render homepage
+      description: Renders the index page.
+      responses:
+        '200':
+          description: HTML content of the index page.
+  /clientes-page:
+    get:
+      summary: Render client page
+      description: Renders the clients page.
+      responses:
+        '200':
+          description: HTML content of the clients page.
+  /clientes:
+    get:
+      summary: List clients
+      description: Fetch all clients from the database.
+      responses:
+        '200':
+          description: A list of clients.
+          content:
+            application/json:
+              example:
+                - cpf: '12345678901'
+                  nome: John Doe
+                  telefone: '123456789'
+                  logradouro: Rua A
+                  numero: 10
+                  complemento: Apto 101
+                  cep: '12345678'
+                  bairro: Bairro B
+                  cidade: Cidade C
+                  uf: SP
+    post:
+      summary: Add or update client
+      description: Add a new client or update an existing one.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              cpf: '12345678901'
+              nome: John Doe
+              telefone: '123456789'
+              logradouro: Rua A
+              numero: 10
+              complemento: Apto 101
+              cep: '12345678'
+              bairro: Bairro B
+              cidade: Cidade C
+              uf: SP
+      responses:
+        '201':
+          description: Client added or updated successfully.
+        '500':
+          description: Internal server error.
+  /clientes/{cpf}:
+    get:
+      summary: Get client
+      description: Fetch a client by CPF.
+      parameters:
+        - name: cpf
+          in: path
+          required: true
+          description: Client CPF.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Client details.
+          content:
+            application/json:
+              example:
+                cpf: '12345678901'
+                nome: John Doe
+                telefone: '123456789'
+                logradouro: Rua A
+                numero: 10
+                complemento: Apto 101
+                cep: '12345678'
+                bairro: Bairro B
+                cidade: Cidade C
+                uf: SP
+        '404':
+          description: Client not found.
+    delete:
+      summary: Delete client
+      description: Delete a client by CPF.
+      parameters:
+        - name: cpf
+          in: path
+          required: true
+          description: Client CPF.
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Client deleted successfully.
+        '500':
+          description: Internal server error.
+  /cervejas:
+    get:
+      summary: List beers
+      description: Fetch all beers from the database.
+      responses:
+        '200':
+          description: A list of beers.
+          content:
+            application/json:
+              example:
+                - cod_barra: '1234567890123'
+                  nome: Cerveja X
+                  marca: Marca Y
+                  tipo: Pilsen
+                  pais: Brasil
+                  preco: 5.99
+    post:
+      summary: Add or update beer
+      description: Add a new beer or update an existing one.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              cod_barra: '1234567890123'
+              nome: Cerveja X
+              marca: Marca Y
+              tipo: Pilsen
+              pais: Brasil
+              preco: 5.99
+      responses:
+        '201':
+          description: Beer added or updated successfully.
+        '500':
+          description: Internal server error.
+  /vendas:
+    post:
+      summary: Finalize sale
+      description: Create a new sale and save its items.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              client: '12345678901'
+              items:
+                - cod: '1234567890123'
+                  quantity: 2
+                  price: 5.99
+      responses:
+        '201':
+          description: Sale finalized successfully.
+        '500':
+          description: Internal server error.
